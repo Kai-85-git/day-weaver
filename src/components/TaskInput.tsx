@@ -12,8 +12,13 @@ import { Calendar } from "@/components/ui/calendar"
 import { CalendarIcon } from "lucide-react"
 import { format } from "date-fns"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Task } from '@/types/task';
 
-const TaskInput = () => {
+interface TaskInputProps {
+    setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+}
+
+const TaskInput: React.FC<TaskInputProps> = ({ setTasks }) => {
     const [description, setDescription] = useState('');
     const [deadline, setDeadline] = useState<Date | undefined>(undefined);
     const [priority, setPriority] = useState('medium');
@@ -21,12 +26,31 @@ const TaskInput = () => {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        // Implement task submission logic here
-        console.log('Task submitted:', { description, deadline, priority });
+
+        if (!description || !deadline || !priority) {
+            toast({
+                title: "エラー",
+                description: "すべてのフィールドを入力してください。",
+                variant: "destructive",
+            });
+            return;
+        }
+
+        const newTask: Task = {
+            id: Date.now().toString(),
+            description,
+            deadline: deadline.toISOString(),
+            priority,
+            completed: false,
+        };
+
+        setTasks((prevTasks) => [...prevTasks, newTask]);
+
         toast({
-            title: "Task Submitted",
-            description: `Task: ${description} submitted successfully!`,
-        })
+            title: "タスクを追加しました",
+            description: `タスク: ${description} を追加しました!`,
+        });
+
         setDescription('');
         setDeadline(undefined);
         setPriority('medium');
@@ -40,7 +64,7 @@ const TaskInput = () => {
                     id="description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Task description"
+                    placeholder="タスクの説明"
                 />
             </div>
             <div>
