@@ -35,7 +35,7 @@ const TaskInput = () => {
     return (
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full max-w-md p-4 rounded-lg border">
             <div>
-                <Label htmlFor="description">Description</Label>
+                <Label htmlFor="description">説明</Label>
                 <Textarea
                     id="description"
                     value={description}
@@ -44,7 +44,7 @@ const TaskInput = () => {
                 />
             </div>
             <div>
-                <Label>Deadline</Label>
+                <Label>締め切り</Label>
                 <Popover>
                     <PopoverTrigger asChild>
                         <Button
@@ -55,7 +55,7 @@ const TaskInput = () => {
                             )}
                         >
                             <CalendarIcon className="mr-2 h-4 w-4" />
-                            {deadline ? format(deadline, "PPP") : <span>Pick a date</span>}
+                            {deadline ? format(deadline, "PPP") : <span>日付を選択</span>}
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
@@ -72,19 +72,19 @@ const TaskInput = () => {
                 </Popover>
             </div>
             <div>
-                <Label htmlFor="priority">Priority</Label>
+                <Label htmlFor="priority">優先度</Label>
                 <select
                     id="priority"
                     value={priority}
                     onChange={(e) => setPriority(e.target.value)}
                     className="w-full p-2 rounded border"
                 >
-                    <option value="high">High</option>
-                    <option value="medium">Medium</option>
-                    <option value="low">Low</option>
+                    <option value="high">高</option>
+                    <option value="medium">中</option>
+                    <option value="low">低</option>
                 </select>
             </div>
-            <Button type="submit">Add Task</Button>
+            <Button type="submit">タスクを追加</Button>
         </form>
     );
 };
